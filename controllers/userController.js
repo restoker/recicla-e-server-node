@@ -1,6 +1,8 @@
 import express from "express";
-import { updateToken, userExisteWithEmpresa } from "../models/User";
+import { updateToken, userExisteWithEmpresa } from "../models/User.js";
 import jwt from 'jsonwebtoken';
+import { getCategoriasEmpresa } from "../models/Empresa.js";
+import bcrypt from 'bcryptjs';
 
 const { request, response } = express;
 
@@ -42,6 +44,13 @@ export const loginUser = async (req = request, res = response) => {
             { expiresIn: '7d' }
         );
 
+        if (estado === 'APROBADO') {
+            const categoriasEmpresa = await getCategoriasEmpresa(user.empresa.id);
+            // console.log(categoriasEmpresa);
+            user.categoria = categoriasEmpresa.categoria;
+        } else {
+            user.categoria = [];
+        }
 
         const data = {
             id: user.id,
@@ -65,7 +74,7 @@ export const loginUser = async (req = request, res = response) => {
         // console.log(data);
         return res.status(201).send({
             success: true,
-            msg: 'Login success',
+            msg: 'Registro correcto',
             data
         })
 

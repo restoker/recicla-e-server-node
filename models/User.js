@@ -1,4 +1,4 @@
-import db from "../config/db.connect";
+import db from "../config/db.connect.js";
 
 export const obtenerUsuarios = async () => {
     const sql = `

@@ -11,20 +11,21 @@ const options = {
 }
 
 const pgp = pgPromise(options);
-
 const types = pgp.pg.types;
 types.setTypeParser(1114, function (stringValue) {
+    console.log(stringValue);
     return stringValue;
 });
 
-const db = pgp(process.env.DB_URI)
+const db = pgp({ connectionString: process.env.DB_URI, max: 30 })
+db.connect()
     .then(obj => {
         obj.done(); // success, release the connection;
-        console.log('connexión success :D'.blue);
+        console.log('connexión exitosa a la base de datos'.blue);
     })
     .catch(error => {
         console.log('ERROR:', error.message || error);
-        console.log('Error try to connecting to the DataBase'.rainbow);
+        console.log('Error al conectar la base de datos'.rainbow);
         process.exit(1);
     });
 
