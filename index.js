@@ -5,6 +5,7 @@ import logger from 'morgan';
 import { config } from 'dotenv';
 import cors from 'cors'
 import userRouter from './routes/user.routes.js'
+import empresaRouter from './routes/empresa.routes.js'
 
 config();
 
@@ -28,6 +29,7 @@ app.enable('trust proxy');
 // server routes
 // user route
 app.use('/api/users', userRouter);
+app.use('/api/empresas', empresaRouter);
 
 app.use((err, req, res, next) => {
     console.log(err);
