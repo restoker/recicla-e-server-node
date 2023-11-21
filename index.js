@@ -3,11 +3,20 @@ import hola from 'colors';
 import helmet from 'helmet';
 import logger from 'morgan';
 import { config } from 'dotenv';
+import admin from 'firebase-admin';
+import passportFunction from './config/passport.js';
+import session from 'express-session';
 import cors from 'cors'
 import userRouter from './routes/user.routes.js'
 import empresaRouter from './routes/empresa.routes.js'
+import empresaRouter from './routes/address.routes.js'
+
+import { readFile } from 'fs/promises';
 
 config();
+
+let serviceAccount = JSON.parse(await readFile("serviceAccountKey.json", "utf8"));
+
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -30,6 +39,7 @@ app.enable('trust proxy');
 // user route
 app.use('/api/users', userRouter);
 app.use('/api/empresas', empresaRouter);
+app.use('/api/address', addressRouter);
 
 app.use((err, req, res, next) => {
     console.log(err);
