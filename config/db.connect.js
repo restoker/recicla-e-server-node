@@ -17,7 +17,7 @@ types.setTypeParser(1114, function (stringValue) {
     return stringValue;
 });
 
-const db = pgp({ connectionString: process.env.DB_URI, max: 30 })
+const db = pgp({ connectionString: process.env.DB_URI, max: 30 });
 db.connect()
     .then(obj => {
         obj.done(); // success, release the connection;

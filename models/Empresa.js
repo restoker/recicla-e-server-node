@@ -1,3 +1,5 @@
+import db from "../config/db.connect.js";
+
 export const getCategoriasEmpresa = async (idEmpresa) => {
     const sql = `
     select

@@ -13,10 +13,17 @@ const app = express();
 
 app.use(helmet());
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '12mb' }));
+app.use(express.urlencoded({ extended: true, limit: '12mb' }));
 app.use(cors());
+app.options('*', cors());
+app.use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: 'bla bla bla'
+}));
 app.disable('x-powered-by');
+app.enable('trust proxy');
 
 // server routes
 // user route
